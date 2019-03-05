@@ -13,6 +13,12 @@ spring:
     suffix: .ftl
     template-loader-path:  classpath:/backoffice/templates/
 
+  # login capabilities
+  security.oauth2.client.registration:
+    google:
+      client-id: ${GOOLE_CLIENT_ID}
+      client-secret: ${GOOLE_SECRET}
+
 
 #  thymeleaf:
 #    cache: false       # Allow Thymeleaf templates to be reloaded at runtime

@@ -3,12 +3,15 @@ package com.manageacloud.opentour.services.registration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 /**
  * All you need to run a Eureka registration server.
  * 
  * @author Ruben Rubio
  */
+@EnableWebSecurity
 @SpringBootApplication
 @EnableEurekaServer
 public class RegistrationServer {
