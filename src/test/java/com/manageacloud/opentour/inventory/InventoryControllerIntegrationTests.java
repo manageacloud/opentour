@@ -6,6 +6,7 @@ import com.manageacloud.opentour.inventory.config.InventoryConfiguration;
 import com.manageacloud.opentour.inventory.controller.InventoryController;
 import com.manageacloud.opentour.inventory.model.Item;
 import com.manageacloud.opentour.inventory.model.ItemType;
+import com.manageacloud.opentour.inventory.model.Region;
 import com.manageacloud.opentour.inventory.model.dto.ItemDTO;
 import com.manageacloud.opentour.inventory.repository.ItemTypeRepository;
 import com.manageacloud.opentour.services.inventory.InventoryServer;
@@ -63,7 +64,8 @@ public class InventoryControllerIntegrationTests {
 
         String name_EN = "Test Point Of Interest";
 
-        ItemDTO itemDTO = new ItemDTO(Lang.EN_AU.getId(), 1, name_EN, ItemType.TYPE.POINT_OF_INTEREST.toString());
+        ItemDTO itemDTO = new ItemDTO(Lang.EN_AU.getId(), 1, name_EN,
+                ItemType.TYPE.POINT_OF_INTEREST.toString(), 1L);
 
         Item item = inventoryController.addInventory(itemDTO);
 
@@ -71,6 +73,7 @@ public class InventoryControllerIntegrationTests {
         assertEquals(item.getName(Lang.EN_AU), name_EN);
         assertNull(item.getName(Lang.ES_ES));
         assertEquals(item.getItemType().getId(), ItemType.TYPE.POINT_OF_INTEREST.getId(), 0);
+        assertEquals(item.getRegion().getId(), Region.Regions.SPAIN.getId(), 0);
     }
 
 

@@ -43,6 +43,11 @@ public class Item implements Serializable {
     @JoinColumn(name = "item_type_id", referencedColumnName = "id")
     private ItemType itemType;
 
+    @OneToOne
+    @JoinColumn(name = "region_id", referencedColumnName = "id")
+    private Region region;
+
+
     @Type( type = "string-array" )
     @Column( name = "name", columnDefinition = "text[]" )
     private String[] name;
@@ -52,11 +57,12 @@ public class Item implements Serializable {
 
     protected  Item() {}
 
-    public Item(Lang lang, Integer createdUserId, String name, ItemType itemType)  {
+    public Item(Lang lang, Integer createdUserId, String name, ItemType itemType, Region region)  {
         this.createdUserId = createdUserId;
         this.name = new String[Lang.values().length];
         this.itemType = itemType;
         this.name[lang.getId()] = name;
+        this.region = region;
     }
 
     public Item(Integer createdUserId, String[] name) {
@@ -91,6 +97,10 @@ public class Item implements Serializable {
 
     public ItemType getItemType() {
         return itemType;
+    }
+
+    public Region getRegion() {
+        return region;
     }
 
     @Override

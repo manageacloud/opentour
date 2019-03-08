@@ -18,11 +18,14 @@ public class ItemDTO  implements Translatable, Identificable  {
 
     private String itemType;
 
-    public ItemDTO(int lang, int userId, String name, String itemType) {
+    private long regionId;
+
+    public ItemDTO(int lang, int userId, String name, String itemType, long regionId) {
         this.lang = lang;
         this.userId = userId;
         this.name = name;
         this.itemType = itemType;
+        this.regionId = regionId;
     }
 
     public String getName() {
@@ -31,6 +34,10 @@ public class ItemDTO  implements Translatable, Identificable  {
 
     public ItemType.TYPE getItemType() {
         return ItemType.TYPE.valueOf(itemType);
+    }
+
+    public long getRegionId() {
+        return regionId;
     }
 
     @Override
