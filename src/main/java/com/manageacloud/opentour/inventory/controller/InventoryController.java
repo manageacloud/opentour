@@ -3,6 +3,7 @@ package com.manageacloud.opentour.inventory.controller;
 import com.manageacloud.opentour.config.Lang;
 import com.manageacloud.opentour.exceptions.NotFoundException;
 import com.manageacloud.opentour.inventory.model.Item;
+import com.manageacloud.opentour.inventory.model.dto.ItemDTO;
 import com.manageacloud.opentour.inventory.service.InventoryService;
 import com.manageacloud.opentour.users.model.User;
 import com.manageacloud.opentour.users.repository.UserRepository;
@@ -42,13 +43,11 @@ public class InventoryController {
 	 * @return
 	 */
 	@PostMapping("/inventory/")
-	public Item addInventory(@RequestBody Item newItem) {
+	public Item addInventory(@RequestBody ItemDTO newItem) {
 
 		logger.info("inventory-service add inventory");
-		//newItem = inventoryService.addItem(Lang.EN_AU, newItem);
-		inventoryService.addItem(newItem);
+		return inventoryService.addItem(newItem);
 
-		return newItem;
 	}
 
 

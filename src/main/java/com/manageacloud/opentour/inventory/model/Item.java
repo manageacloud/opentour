@@ -39,15 +39,12 @@ public class Item implements Serializable {
     @Column(name = "created_user_id")
     private Integer createdUserId;
 
-//    @OneToOne
-//    @JoinColumn(name = "region_id", referencedColumnName = "id")
-//    private Region region;
+    @OneToOne
+    @JoinColumn(name = "item_type_id", referencedColumnName = "id")
+    private ItemType itemType;
 
     @Type( type = "string-array" )
-    @Column(
-            name = "name",
-            columnDefinition = "text[]"
-    )
+    @Column( name = "name", columnDefinition = "text[]" )
     private String[] name;
 
     private Float lat;
@@ -55,9 +52,10 @@ public class Item implements Serializable {
 
     protected  Item() {}
 
-    public Item(Lang lang, Integer createdUserId, String name)  {
+    public Item(Lang lang, Integer createdUserId, String name, ItemType itemType)  {
         this.createdUserId = createdUserId;
         this.name = new String[Lang.values().length];
+        this.itemType = itemType;
         this.name[lang.getId()] = name;
     }
 
@@ -89,6 +87,10 @@ public class Item implements Serializable {
 
     public Float getLng() {
         return lng;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
     }
 
     @Override

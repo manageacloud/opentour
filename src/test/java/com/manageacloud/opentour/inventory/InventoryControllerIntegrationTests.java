@@ -5,6 +5,9 @@ import com.manageacloud.opentour.config.Lang;
 import com.manageacloud.opentour.inventory.config.InventoryConfiguration;
 import com.manageacloud.opentour.inventory.controller.InventoryController;
 import com.manageacloud.opentour.inventory.model.Item;
+import com.manageacloud.opentour.inventory.model.ItemType;
+import com.manageacloud.opentour.inventory.model.dto.ItemDTO;
+import com.manageacloud.opentour.inventory.repository.ItemTypeRepository;
 import com.manageacloud.opentour.services.inventory.InventoryServer;
 import com.manageacloud.opentour.users.config.UserConfiguration;
 import com.manageacloud.opentour.users.controller.UserController;
@@ -21,8 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,6 +53,9 @@ public class InventoryControllerIntegrationTests {
     InventoryController inventoryController;
 
     @Autowired
+    ItemTypeRepository itemTypeRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Test
@@ -58,32 +63,17 @@ public class InventoryControllerIntegrationTests {
 
         String name_EN = "Test Point Of Interest";
 
-        Item item = new Item(Lang.EN_AU, 1,name_EN);
+        ItemDTO itemDTO = new ItemDTO(Lang.EN_AU.getId(), 1, name_EN, ItemType.TYPE.POINT_OF_INTEREST.toString());
 
-        item = inventoryController.addInventory(item);
-
-        assertNotNull(item.getId());
-        assertEquals(item.getName(Lang.EN_AU), name_EN);
-    }
-
-    @Test
-    public void addItemI18nTest() {
-
-        String name_EN = "Test Point Of Interest";
-        String name_ES = "Punto de Interes";
-
-        String[] names = new String[Lang.size()];
-        names[Lang.ES_ES.getId()] = name_ES;
-        names[Lang.EN_AU.getId()] = name_EN;
-
-        Item item = new Item(1,names);
-
-        item = inventoryController.addInventory(item);
+        Item item = inventoryController.addInventory(itemDTO);
 
         assertNotNull(item.getId());
         assertEquals(item.getName(Lang.EN_AU), name_EN);
-        assertEquals(item.getName(Lang.ES_ES), name_ES);
+        assertNull(item.getName(Lang.ES_ES));
+        assertEquals(item.getItemType().getId(), ItemType.TYPE.POINT_OF_INTEREST.getId(), 0);
     }
+
+
 
 
 }

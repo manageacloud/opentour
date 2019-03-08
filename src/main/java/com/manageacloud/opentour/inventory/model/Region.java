@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Region Table represents the region tree
- *
+ * TODO import data
  * Created by Ruben Rubio Rey
  */
 

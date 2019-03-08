@@ -1,8 +1,16 @@
 package com.manageacloud.opentour.inventory.model;
 
 
+import com.manageacloud.opentour.config.Lang;
+import com.vladmihalcea.hibernate.type.array.IntArrayType;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,23 +20,38 @@ import java.util.Objects;
  * Created by Ruben Rubio Rey
  */
 
+@TypeDefs({
+        @TypeDef(
+                name = "string-array",
+                typeClass = StringArrayType.class
+        ),
+        @TypeDef(
+                name = "int-array",
+                typeClass = IntArrayType.class
+        )
+})
+
 @Entity
 @Table(name = "item_types")
 public class ItemType implements Serializable {
 
+    /**
+     * Main item types: Point of Interest, Events or Products.
+     *
+     */
     public enum TYPE {
 
         POINT_OF_INTEREST(1),
         EVENT(2),
         PRODUCT(3);
 
-        private int id;
+        private long id;
 
         TYPE(int id) {
             this.id = id;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -37,21 +60,25 @@ public class ItemType implements Serializable {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
-//    @Column(name = "name", columnDefinition = "text[]")
-//    @Convert(converter = ListToArrayConveter.class)
-//    private List<String> name;
+    @Type( type = "string-array" )
+    @Column( name = "name", columnDefinition = "text[]" )
+    private String[] name;
 
     protected  ItemType() {}
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-//    public List<String> getName() {
-//        return name;
-//    }
+    public List<String> getName() {
+        return Arrays.asList(this.name);
+    }
+
+    public String getName(Lang lang) {
+        return name[lang.getId()];
+    }
 
     @Override
     public String toString() {

@@ -17,4 +17,14 @@ public enum Lang {
     public static int size() {
         return Lang.values().length;
     }
+
+    public static Lang valueOf(int position) {
+        Lang toretun = null;
+        for (Lang lang : Lang.values()) {
+            if ( lang.getId() == position ) {
+                toretun = lang;
+            }
+        }
+        return toretun;
+    }
 }
